@@ -27,7 +27,7 @@ async function getAllCommentsOfPost (post: { id: any; title: any; body: any }) {
       post_title: title,
       post_body: body,
       total_number_of_comments: comments.length,
-      comments: comments.map((c: { id: any; body: any }) => (
+      comments: comments.map((c: { id: number; body: string }) => (
         {
           comment_url: `${COMMENTS_URL}/${c.id}`,
           comment_body: c.body
@@ -48,7 +48,7 @@ const numberOfCommentsDESC = (
   b: { total_number_of_comments: number }
 ) => b.total_number_of_comments - a.total_number_of_comments
 
-async function getSortedPostsWithAllComments (sort = 'ASC') {
+async function getSortedPostsWithAllComments (sort = 'DESC') {
   try {
     const { data: posts } = await axios.get(POSTS_URL)
     const postComments: Array<PostComments> = await Promise.all(posts.map(getAllCommentsOfPost))
